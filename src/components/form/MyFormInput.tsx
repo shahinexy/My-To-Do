@@ -79,7 +79,7 @@ const MyFormInput = ({
         <label
           htmlFor={name}
           className={cn(
-            "md:text-xl text-[15px] text-grayText font-medium mb-1",
+            "font-medium mb-1",
             labelClassName
           )}
         >
@@ -176,7 +176,7 @@ const MyFormInput = ({
                 rows={rows || 3}
                 disabled={disabled}
                 className={cn(
-                  "w-full px-4 py-3 md:text-[17px] rounded-md focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent ",
+                  "w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent ",
                   error ? "border-red-500" : "border-gray-300",
                   inputClassName
                 )}
@@ -228,7 +228,7 @@ const MyFormInput = ({
                     : type
                 }
                 className={cn(
-                  "w-full px-4 py-3 md:text-[17px] rounded-md focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent",
+                  "w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent",
                   error ? "border-red-500" : "border-gray-300",
                   inputClassName
                 )}

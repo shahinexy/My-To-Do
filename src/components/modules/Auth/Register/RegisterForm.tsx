@@ -7,11 +7,12 @@ import { setUser, TUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setCookie } from "@/utils/cookies";
 import { varifyToken } from "@/utils/verifyToken";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const router = useRouter();
@@ -40,26 +41,41 @@ const LoginForm = () => {
     }
   };
   return (
-    <MyFormWrapper onSubmit={onSubmit}>
-      <MyFormInput
-        type="email"
-        name="email"
-        inputClassName="md:py-4 py-2 md:px-5 px-5 rounded-3xl bg-white"
-        placeholder="email"
-      />
+    <div className="sm:w-[500px] w-full md:space-y-8 space-y-6">
+      <div className="space-y-3 text-center">
+        <h1 className="md:text-3xl text-2xl md:font-bold font-semibold">
+          Create your account
+        </h1>
+        <p>Start managing your tasks efficiently</p>
+      </div>
+      <MyFormWrapper onSubmit={onSubmit} className="w-full">
+        <div className="flex gap-2 justify-between">
+          <MyFormInput name="firstName" label="First Name" />
 
-      <MyFormInput
-        type="password"
-        name="password"
-        inputClassName="md:py-4 py-2 md:px-5 px-5 rounded-3xl bg-white"
-        placeholder="password"
-      />
+          <MyFormInput name="lastName" label="Last Name" />
+        </div>
+        <MyFormInput type="email" name="email" label="Email" />
 
-      <button className="bg-primary rounded-3xl py-3 md:px-36 px-20 text-xl text-white">
-        Login
-      </button>
-    </MyFormWrapper>
+        <MyFormInput type="password" name="password" label="Password" />
+
+        <MyFormInput
+          type="password"
+          name="confirmPassword"
+          label="Confirm Password"
+        />
+
+        <button className="w-full bg-primary rounded-lg py-3 font-medium text-white my-5">
+          Log In
+        </button>
+        <p className="text-center ">
+          Already have an account?{" "}
+          <Link href={"/login"} className="text-primary font-medium">
+            Log in
+          </Link>
+        </p>
+      </MyFormWrapper>
+    </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

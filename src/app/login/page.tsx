@@ -1,7 +1,9 @@
+import Login from "@/components/modules/Auth/Login";
+
 export default function Page() {
   return (
     <div>
-      <h1>Login</h1>
+      <Login />
     </div>
   );
 }
