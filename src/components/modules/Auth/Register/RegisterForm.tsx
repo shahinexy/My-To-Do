@@ -2,42 +2,37 @@
 "use client";
 import MyFormInput from "@/components/form/MyFormInput";
 import MyFormWrapper from "@/components/form/MyFormWrapper";
-import { useLoginMutation } from "@/redux/features/auth/authApi";
-import { setUser, TUser } from "@/redux/features/auth/authSlice";
-import { useAppDispatch } from "@/redux/hooks";
-import { setCookie } from "@/utils/cookies";
-import { varifyToken } from "@/utils/verifyToken";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { registerSchema } from "@/schema/signUp.schema";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
-
+import { zodResolver } from '@hookform/resolvers/zod';
+ 
 const RegisterForm = () => {
-  const dispatch = useAppDispatch();
-  const [login] = useLoginMutation();
+  const [register] = useRegisterMutation();
   const router = useRouter();
 
   const onSubmit = async (data: FieldValues) => {
-    const toastId = toast.loading("login...");
+    const toastId = toast.loading("Registering...");
+
+    const formData = new FormData();
+
+    formData.append("first_name", data.firstName);
+    formData.append("last_name", data.lastName);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
 
     try {
-      const res = await login(data).unwrap();
-      const user = varifyToken(res.data.token) as TUser;
-
-      if (user?.role !== "ADMIN") {
-        return toast.error("Unauthorize Access", { id: toastId });
-      } else {
-        setCookie(res.data.token);
-        dispatch(setUser({ user, token: res.data.token }));
-
-        toast.success("Login success", { id: toastId });
-
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
-      }
+      await register(formData).unwrap();
+      router.push("/login");
+      toast.success("Registered Successfully", { id: toastId });
     } catch (err: any) {
-      toast.error(err.data?.message || "Faild to login", { id: toastId });
+      toast.error(
+        err.data?.message || "Failed to Register, something is wrong",
+        { id: toastId }
+      );
     }
   };
   return (
@@ -48,7 +43,11 @@ const RegisterForm = () => {
         </h1>
         <p>Start managing your tasks efficiently</p>
       </div>
-      <MyFormWrapper onSubmit={onSubmit} className="w-full">
+      <MyFormWrapper
+        onSubmit={onSubmit}
+        className="w-full"
+        resolver={zodResolver(registerSchema)}
+      >
         <div className="flex gap-2 justify-between">
           <MyFormInput name="firstName" label="First Name" />
 

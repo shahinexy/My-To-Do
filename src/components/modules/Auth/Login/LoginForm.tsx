@@ -7,7 +7,7 @@ import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { setUser, TUser } from "@/redux/features/auth/authSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { setCookie } from "@/utils/cookies";
-import { varifyToken } from "@/utils/verifyToken";
+import { verifyToken } from "@/utils/verifyToken";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
@@ -23,22 +23,18 @@ const LoginForm = () => {
 
     try {
       const res = await login(data).unwrap();
-      const user = varifyToken(res.data.token) as TUser;
+      const user = verifyToken(res.access) as TUser;
 
-      if (user?.role !== "ADMIN") {
-        return toast.error("Unauthorize Access", { id: toastId });
-      } else {
-        setCookie(res.data.token);
-        dispatch(setUser({ user, token: res.data.token }));
+      setCookie(res.access);
+      dispatch(setUser({ user, token: res.access }));
 
-        toast.success("Login success", { id: toastId });
+      toast.success("Login success", { id: toastId });
 
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
-      }
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     } catch (err: any) {
-      toast.error(err.data?.message || "Faild to login", { id: toastId });
+      toast.error(err.data?.message || "Failed to login", { id: toastId });
     }
   };
   return (

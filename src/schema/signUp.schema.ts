@@ -1,12 +1,27 @@
 import { z } from "zod";
 
-export const signUpSchema = z.object({
-  name: z.string().nonempty("Name is required."),
-  email: z.string().email("Please enter a valid email address."),
-  password: z.string().min(8, "Password must be at least 8 characters long."),
-  terms: z.literal(true, {
-    errorMap: () => ({
-      message: "You must agree to the terms and privacy policy.",
-    }),
-  }),
+const nameRegex = /^[A-Za-z]+$/;
+
+export const registerSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .regex(nameRegex, "First name must contain only letters"),
+
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .regex(nameRegex, "Last name must contain only letters"),
+
+  email: z.string().email("Invalid email"),
+
+  password: z.string().min(6, "Password must be at least 6 characters"),
+
+  confirmPassword: z
+    .string()
+    .min(6, "Confirm Password must be at least 6 characters"),
+})
+.refine((data) => data.password === data.confirmPassword, {
+  path: ["confirmPassword"],
+  message: "Passwords do not match",
 });
