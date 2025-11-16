@@ -32,6 +32,7 @@ interface MyFormInputProps {
   disabled?: boolean;
   filePlaceholder?: string;
   acceptType?: "image/*";
+  imagePreview?: string;
 }
 
 const MyFormInput = ({
@@ -55,6 +56,7 @@ const MyFormInput = ({
   disabled = false,
   filePlaceholder,
   acceptType,
+  imagePreview,
 }: MyFormInputProps) => {
   const { control, getValues, setValue } = useFormContext();
   const inputValue = useWatch({ control, name }) ?? ""; // Ensure no undefined value
@@ -78,10 +80,7 @@ const MyFormInput = ({
       {label && (
         <label
           htmlFor={name}
-          className={cn(
-            "font-medium mb-1",
-            labelClassName
-          )}
+          className={cn("font-medium mb-1", labelClassName)}
         >
           {label}
         </label>
@@ -107,19 +106,20 @@ const MyFormInput = ({
                 <label
                   htmlFor={name}
                   className={cn(
-                    "border border-[#7E1F7F40] rounded-lg p-6 flex flex-col items-center justify-center bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors relative overflow-hidden",
+                    "border w-24 h-24 flex items-center justify-center bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors relative overflow-hidden rounded-full",
                     "min-h-[100px]",
                     error ? "border-red-500" : "",
                     inputClassName
                   )}
                 >
-                  {preview ? (
+                  {imagePreview || preview ? (
                     <div className="absolute inset-0 w-full h-full">
                       <Image
-                        src={preview || "/placeholder.svg"}
+                        src={preview || imagePreview || "/placeholder.svg"}
                         alt="Preview"
-                        fill
-                        className="object-contain p-2"
+                        width={500}
+                        height={500}
+                        className=" w-full h-full rounded-full"
                       />
                     </div>
                   ) : (
@@ -146,6 +146,7 @@ const MyFormInput = ({
                       </p>
                     </>
                   )}
+
                   <input
                     type="file"
                     id={name}
@@ -154,15 +155,10 @@ const MyFormInput = ({
                     className="hidden"
                     disabled={disabled}
                     onChange={(e) => {
-                      const files = e.target.files;
-                      if (files && files.length > 0) {
-                        if (isMultiple) {
-                          setValue(name, Array.from(files));
-                          setPreview(URL.createObjectURL(files[0]));
-                        } else {
-                          setValue(name, files[0]);
-                          setPreview(URL.createObjectURL(files[0]));
-                        }
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setValue(name, file);
+                        setPreview(URL.createObjectURL(file));
                       }
                     }}
                   />
@@ -176,7 +172,7 @@ const MyFormInput = ({
                 rows={rows || 3}
                 disabled={disabled}
                 className={cn(
-                  "w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent ",
+                  "w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 border  bg-transparent ",
                   error ? "border-red-500" : "border-gray-300",
                   inputClassName
                 )}
@@ -228,7 +224,7 @@ const MyFormInput = ({
                     : type
                 }
                 className={cn(
-                  "w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 border !border-[#7E1F7F40] bg-transparent",
+                  "w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 border  bg-transparent",
                   error ? "border-red-500" : "border-gray-300",
                   inputClassName
                 )}
@@ -251,11 +247,11 @@ const MyFormInput = ({
               </button>
             )}
             {/* Validation Error Message */}
-            <div className="h-4 mb-1">
+            {/* <div className="h-4 mb-1">
               {error && (
                 <small className="text-red-500 text-xs">{error.message}</small>
               )}
-            </div>
+            </div> */}
           </div>
         )}
       />

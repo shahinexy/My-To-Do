@@ -17,6 +17,7 @@ import { logout } from "@/redux/features/auth/authSlice";
 import { removeCookie } from "@/utils/cookies";
 import Link from "next/link";
 import { useGetMeQuery } from "@/redux/features/auth/authApi";
+import { MdLogout } from "react-icons/md";
 
 const items = [
   {
@@ -37,8 +38,6 @@ const SideBar = () => {
   const router = useRouter();
   const { data } = useGetMeQuery(undefined);
 
-  console.log(data);
-
   const handleLogOut = () => {
     dispatch(logout());
     removeCookie("token");
@@ -47,7 +46,7 @@ const SideBar = () => {
   return (
     <Sidebar>
       <SidebarContent className="!bg-[#0D224A] text-white">
-        <SidebarGroup>
+        <SidebarGroup className="p-00">
           <div className="mx-auto my-8 space-y-3 text-center">
             <Image
               src={data?.profile_image || "/placeholders/image_placeholder.png"}
@@ -69,9 +68,9 @@ const SideBar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className={`text-base text-[#8CA3CD] font-medium rounded-none px-6 py-5 hover:bg-gradient-to-l  to-[#5272FF] from-[#0D224A] ${
+                    className={`text-base text-[#8CA3CD] font-medium rounded-none px-6 py-6 hover:bg-gradient-to-l  to-[#233898] from-[#0D224A] hover:text-white ${
                       pathName === `${item.url}`
-                        ? "bg-gradient-to-l  to-[#5272FF] from-transparent text-white"
+                        ? "bg-gradient-to-l  to-[#233898] from-[#0D224A] text-white"
                         : "text-[#8CA3CD]"
                     }`}
                   >
@@ -87,12 +86,12 @@ const SideBar = () => {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="!bg-[#0D224A] text-white">
+      <SidebarFooter className="!bg-[#0D224A] text-[#8CA3CD]">
         <button
           onClick={handleLogOut}
-          className="py-3 border font-medium text-base"
+          className="flex items-center justify-center gap-3 py-3 font-medium text-base"
         >
-          Log out
+          <MdLogout className="text-2xl" /> Log out
         </button>
       </SidebarFooter>
     </Sidebar>
