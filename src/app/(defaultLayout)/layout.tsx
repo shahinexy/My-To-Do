@@ -1,16 +1,24 @@
-
+import PageHeader from "@/components/shared/PageHeader";
+import SideBar from "@/components/shared/SideBar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Insightify",
-  description: "Transform Voice, Images, and Videos into Text",
+  title: "My To Do",
+  description: "",
 };
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main>
-      <div className="max-w-[1372px] mx-auto md:py-5 md:px-0 px-3">{children}</div>
-    </main>
+    <SidebarProvider>
+      <SideBar />
+      <main className="w-full bg-[#eef7ff]">
+        <PageHeader />
+        <div className="max-w-[950px] mx-auto md:py-5 md:px-0 px-3">
+          {children}
+        </div>
+      </main>
+    </SidebarProvider>
   );
 };
 
