@@ -23,8 +23,14 @@ const AccountInformation = () => {
 
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
-      formData.append(key, data[key]);
+      if (key !== "profile_image") {
+        formData.append(key, data[key]);
+      }
     });
+
+    if (data?.profile_image instanceof File) {
+      formData.append("profile_image", data?.profile_image);
+    }
 
     try {
       await updateProfile(formData).unwrap();
