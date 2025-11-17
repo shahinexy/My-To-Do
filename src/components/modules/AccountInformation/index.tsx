@@ -23,9 +23,7 @@ const AccountInformation = () => {
 
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
-      if (key !== "profile_image") {
-        formData.append(key, data[key]);
-      }
+      formData.append(key, data[key]);
     });
 
     try {
@@ -58,16 +56,13 @@ const AccountInformation = () => {
                   name="profile_image"
                   imagePreview={data?.profile_image}
                 />
-                <div className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full">
-                  <FaCamera />
+                <div className="absolute bottom-0 right-1 bg-primary text-white p-1 rounded-full">
+                  <FaCamera size={15} />
                 </div>
               </div>
-              <button
-                type="button"
-                className="px-4 py-2 bg-primary text-white flex gap-2 items-center rounded-lg"
-              >
+              <div className="px-4 py-2 bg-primary text-white flex gap-2 items-center rounded-lg">
                 <FaUpload /> Upload New Photo
-              </button>
+              </div>
             </div>
           </div>
 

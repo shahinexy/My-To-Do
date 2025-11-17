@@ -38,7 +38,13 @@ const MyFormCheckbox = ({
         defaultValue={getValues(name) ?? false} // Ensures controlled behavior
         rules={required ? { required: "This field is required" } : {}}
         render={({ field, fieldState: { error } }) => (
-          <div className="relative flex items-center">
+          <div className="relative flex items-center gap-3">
+                        {consentText && (
+              <span
+                className="ml-2 text-base text-black"
+                dangerouslySetInnerHTML={{ __html: consentText }}
+              ></span>
+            )}
             <input
               {...field}
               id={name}
@@ -49,12 +55,7 @@ const MyFormCheckbox = ({
                 checkboxClassName
               )}
             />
-            {consentText && (
-              <span
-                className="ml-2 text-sm"
-                dangerouslySetInnerHTML={{ __html: consentText }}
-              ></span>
-            )}
+
             <div className="h-4 my-1">
               {error && (
                 <small className="text-red-500 text-xs">{error.message}</small>

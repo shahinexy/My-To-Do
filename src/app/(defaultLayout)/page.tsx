@@ -1,7 +1,10 @@
+import Todos from "@/components/modules/Todos";
+
+
 const CommonLayoutHomePage = () => {
   return (
     <div>
-      <h1>Home</h1>
+      <Todos />
     </div>
   );
 };

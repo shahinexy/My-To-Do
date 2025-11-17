@@ -80,7 +80,10 @@ const MyFormInput = ({
       {label && (
         <label
           htmlFor={name}
-          className={cn("font-medium mb-1", labelClassName)}
+          className={cn(
+            "text-black text-base font-medium my-1",
+            labelClassName
+          )}
         >
           {label}
         </label>

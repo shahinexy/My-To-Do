@@ -9,7 +9,7 @@ const MyBtn = ({
 }) => {
   return (
     <button
-      className={`px-24 py-2 bg-primary text-white rounded-xl ${width}`}
+      className={`px-20 text-base py-2 bg-primary text-white rounded-xl ${width}`}
     >
       {name}
     </button>

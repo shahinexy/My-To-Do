@@ -14,7 +14,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
       <SideBar />
       <main className="w-full bg-[#eef7ff]">
         <PageHeader />
-        <div className="max-w-[950px] mx-auto md:py-5 md:px-0 px-3">
+        <div className="md:py-5 md:px-5 px-3">
           {children}
         </div>
       </main>
