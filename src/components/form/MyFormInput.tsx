@@ -76,7 +76,7 @@ const MyFormInput = ({
   }, [type, radioOptions, name, setValue, getValues]);
 
   return (
-    <div className={cn("flex flex-col gap-1", className)}>
+    <div className={cn("flex flex-col gap-1 flex-1", className)}>
       {label && (
         <label
           htmlFor={name}
