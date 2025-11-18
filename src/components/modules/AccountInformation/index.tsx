@@ -45,14 +45,13 @@ const AccountInformation = () => {
   }
 
   return (
-    <div className="max-w-[950px] mx-auto bg-white p-7 rounded-2xl md:space-y-8 space-y-4">
+    <div className="max-w-[950px] mx-auto bg-white md:p-7 p-3 rounded-2xl md:space-y-8 space-y-4">
       <MyTitle title="Account Information" />
 
-      <div className="">
         <MyFormWrapper
           onSubmit={handleSubmit}
           defaultValues={data}
-          className="space-y-8"
+          className="md:space-y-8 space-y-5"
         >
           <div className=" inline-block gap-2 border p-3 rounded-2xl">
             <div className="flex gap-4 items-center">
@@ -66,14 +65,14 @@ const AccountInformation = () => {
                   <FaCamera size={15} />
                 </div>
               </div>
-              <div className="px-4 py-2 bg-primary text-white flex gap-2 items-center rounded-lg">
+              <div className="md:inline-block hidden md:px-4 px-2 md:py-2 py-1 bg-primary text-white flex gap-2 items-center rounded-lg">
                 <FaUpload /> Upload New Photo
               </div>
             </div>
           </div>
 
-          <div className="w-full border p-6 inline-block rounded-2xl space-y-4">
-            <div className="flex gap-4 justify-between">
+          <div className="w-full border md:p-6 p-3 inline-block rounded-2xl space-y-4">
+            <div className="flex md:flex-row flex-col gap-4 justify-between">
               <div className="flex-1">
                 <MyFormInput name="first_name" label="First Name" />
               </div>
@@ -84,7 +83,7 @@ const AccountInformation = () => {
             </div>
             <MyFormInput type="email" name="email" label="Email" disabled />
 
-            <div className="flex gap-4 justify-between">
+            <div className="flex md:flex-row flex-col gap-4 justify-between">
               <div className="flex-1">
                 <MyFormInput name="address" label="Address" />
               </div>
@@ -103,7 +102,7 @@ const AccountInformation = () => {
             </div>
           </div>
         </MyFormWrapper>
-      </div>
+     
     </div>
   );
 };

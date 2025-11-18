@@ -12,6 +12,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/schema/signUp.schema";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +47,11 @@ const LoginForm = () => {
         </h1>
         <p>Start managing your tasks efficiently</p>
       </div>
-      <MyFormWrapper onSubmit={onSubmit} className="w-full">
+      <MyFormWrapper
+        onSubmit={onSubmit}
+        className="w-full space-y-3"
+        resolver={zodResolver(loginSchema)}
+      >
         <MyFormInput
           type="email"
           name="email"

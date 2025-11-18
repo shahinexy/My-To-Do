@@ -8,8 +8,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
-import { zodResolver } from '@hookform/resolvers/zod';
- 
+import { zodResolver } from "@hookform/resolvers/zod";
+
 const RegisterForm = () => {
   const [register] = useRegisterMutation();
   const router = useRouter();
@@ -45,22 +45,33 @@ const RegisterForm = () => {
       </div>
       <MyFormWrapper
         onSubmit={onSubmit}
-        className="w-full"
+        className="w-full space-y-3"
         resolver={zodResolver(registerSchema)}
       >
         <div className="flex gap-2 justify-between">
-          <MyFormInput name="firstName" label="First Name" />
+          <MyFormInput name="firstName" label="First Name" placeholder="John" />
 
-          <MyFormInput name="lastName" label="Last Name" />
+          <MyFormInput name="lastName" label="Last Name" placeholder="Doe" />
         </div>
-        <MyFormInput type="email" name="email" label="Email" />
+        <MyFormInput
+          type="email"
+          name="email"
+          label="Email"
+          placeholder="john@example.com"
+        />
 
-        <MyFormInput type="password" name="password" label="Password" />
+        <MyFormInput
+          type="password"
+          name="password"
+          label="Password"
+          placeholder="Enter your password"
+        />
 
         <MyFormInput
           type="password"
           name="confirmPassword"
           label="Confirm Password"
+          placeholder="Confirm your password"
         />
 
         <button className="w-full bg-primary rounded-lg py-3 font-medium text-white my-5">

@@ -13,6 +13,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider>
       <SideBar />
       <main className="w-full bg-[#eef7ff]">
+        
         <PageHeader />
         <div className="md:py-5 md:px-5 px-3">
           {children}

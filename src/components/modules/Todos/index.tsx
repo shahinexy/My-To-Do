@@ -19,23 +19,26 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { BsArrowDownUp } from "react-icons/bs";
+import { TbRefresh } from "react-icons/tb";
 import { addDays, format } from "date-fns";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
-
 const Todos = () => {
-  const { data, isLoading } = useAllToDosQuery(undefined);
-  const [dateRange, setDateRange] = useState<Checked>(true);
- 
+  const [dateRange, setDateRange] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
+
   const today = format(new Date(), "yyyy-MM-dd");
   const in5Days = format(addDays(new Date(), 5), "yyyy-MM-dd");
   const in10Days = format(addDays(new Date(), 10), "yyyy-MM-dd");
   const in30Days = format(addDays(new Date(), 30), "yyyy-MM-dd");
 
+  const { data, isLoading } = useAllToDosQuery([
+    ...(searchValue ? [{ name: "search", value: searchValue }] : []),
+    ...(dateRange ? [{ name: "todo_date", value: dateRange }] : []),
+  ]);
+
   const handleSubmit = (data: FieldValues) => {
-    console.log(data);
+    setSearchValue(data.search);
   };
   const todos: TToDo[] = data?.results;
 
@@ -52,18 +55,26 @@ const Todos = () => {
         <TodoModal type="create" />
       </div>
 
-      <div className="w-full flex gap-5 ">
+      <div className="w-full flex flex-wrap sm:gap-5 gap-3 ">
         <MyFormWrapper onSubmit={handleSubmit} className="w-full flex flex-1">
           <MyFormInput
             name="search"
             placeholder="Search your task here..."
-            inputClassName="rounded-r-none py-2 focus:ring-0 bg-white"
+            inputClassName="rounded-r-none py-2 focus:ring-0 bg-white min-w-40"
           />
           <button className="bg-primary p-1 rounded-r-lg text-white text-2xl px-3">
             <CiSearch />
           </button>
         </MyFormWrapper>
-
+        <button
+          onClick={() => {
+            setDateRange("");
+            setSearchValue("");
+          }}
+          className="bg-primary py-2 px-4 text-white rounded-lg text-2xl font-extralight"
+        >
+          <TbRefresh />
+        </button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="bg-white border px-6 py-2 rounded-lg flex items-center gap-2">
@@ -117,11 +128,7 @@ const Todos = () => {
           <h2 className="text-2xl">No todos yet</h2>
         </div>
       )}
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-6">
-        {todos?.map((todo: TToDo) => (
-          <TodoCard key={todo?.id} data={todo} />
-        ))}
-      </div>
+      <TodoCard data={todos} />
     </div>
   );
 };
