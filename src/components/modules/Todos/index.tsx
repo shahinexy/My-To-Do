@@ -9,7 +9,6 @@ import Spinner from "@/components/common/Spinner";
 import TodoModal from "./TodoModal";
 import { TToDo } from "@/types/data.type";
 import Image from "next/image";
-import TodoCard from "./TodoCard";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -22,6 +21,7 @@ import { useState } from "react";
 import { BsArrowDownUp } from "react-icons/bs";
 import { TbRefresh } from "react-icons/tb";
 import { addDays, format } from "date-fns";
+import TodoGrid from "./TodoGrid";
 
 const Todos = () => {
   const [dateRange, setDateRange] = useState<string>("");
@@ -32,7 +32,7 @@ const Todos = () => {
   const in10Days = format(addDays(new Date(), 10), "yyyy-MM-dd");
   const in30Days = format(addDays(new Date(), 30), "yyyy-MM-dd");
 
-  const { data, isLoading } = useAllToDosQuery([
+  const { data, isFetching, refetch } = useAllToDosQuery([
     ...(searchValue ? [{ name: "search", value: searchValue }] : []),
     ...(dateRange ? [{ name: "todo_date", value: dateRange }] : []),
   ]);
@@ -42,7 +42,7 @@ const Todos = () => {
   };
   const todos: TToDo[] = data?.results;
 
-  if (isLoading)
+  if (isFetching)
     return (
       <div className="h-[70vh] w-full flex items-center justify-center">
         <Spinner />
@@ -68,10 +68,11 @@ const Todos = () => {
         </MyFormWrapper>
         <button
           onClick={() => {
+            refetch();
             setDateRange("");
             setSearchValue("");
           }}
-          className="bg-primary py-2 px-4 text-white rounded-lg text-2xl font-extralight"
+          className="bg-primary py-2 px-4 text-white rounded-lg text-2xl"
         >
           <TbRefresh />
         </button>
@@ -128,7 +129,7 @@ const Todos = () => {
           <h2 className="text-2xl">No todos yet</h2>
         </div>
       )}
-      <TodoCard data={todos} />
+      <TodoGrid initial={todos} />
     </div>
   );
 };

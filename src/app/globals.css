@@ -145,3 +145,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.touch-none {
+  touch-action: none;
+}
